@@ -1,0 +1,218 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: #1a1a2e;
+    color: white;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+}
+
+.sidebar h3 {
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    color: #888;
+    font-size: 14px;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: #4a6cf7;
+    background: #f0f4ff;
+    color: #4a6cf7;
+}
+
+.upload-area input {
+    display: none;
+}
+
+.doc-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.doc-item {
+    font-size: 13px;
+    padding: 8px 10px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    color: #333;
+    word-break: break-all;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.doc-item span {
+    flex: 1;
+}
+
+.doc-delete {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.doc-delete:hover {
+    color: #e53935;
+    background: #fdecea;
+}
+
+/* Chat area */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    max-width: 720px;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: #4a6cf7;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 16px 16px 4px 16px;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 16px 16px 16px 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.message.assistant .sources {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    color: #888;
+}
+
+.message.assistant .sources span {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 4px 2px 0;
+}
+
+.empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 16px;
+}
+
+/* Input bar */
+.input-bar {
+    padding: 16px 24px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 10px;
+}
+
+.input-bar input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-bar input:focus {
+    border-color: #4a6cf7;
+}
+
+.input-bar button {
+    padding: 12px 24px;
+    background: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.input-bar button:hover {
+    background: #3a5ce5;
+}
+
+.input-bar button:disabled {
+    background: #b0b0b0;
+    cursor: not-allowed;
+}

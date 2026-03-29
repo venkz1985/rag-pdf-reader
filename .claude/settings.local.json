@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -m uvicorn:*)",
+      "Bash(curl:*)",
+      "Bash(python -m venv:*)",
+      "Bash(/Users/vk/projects/chatbot/.venv/bin/pip install:*)",
+      "Bash(.venv/bin/python:*)"
+    ]
+  }
+}
