@@ -7,11 +7,11 @@ import numpy as np
 from openai import OpenAI
 
 from config import CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, DATA_DIR, INDEX_DIR
-from config import OPENROUTER_API_KEY, OPENROUTER_BASE_URL
+from config import HF_TOKEN, HF_INFERENCE_URL
 
 _embedding_client = OpenAI(
-    base_url=OPENROUTER_BASE_URL,
-    api_key=OPENROUTER_API_KEY,
+    base_url=HF_INFERENCE_URL,
+    api_key=HF_TOKEN,
 )
 
 
