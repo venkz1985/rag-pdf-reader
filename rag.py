@@ -4,7 +4,7 @@ import numpy as np
 from openai import AsyncOpenAI
 
 from config import OPENROUTER_API_KEY, OPENROUTER_BASE_URL, LLM_MODEL, TOP_K
-from ingest import get_embedding_model
+from ingest import get_embeddings
 
 SYSTEM_PROMPT_TEMPLATE = """You are a helpful assistant that answers questions based on the provided document context.
 
@@ -24,9 +24,7 @@ client = AsyncOpenAI(
 
 
 def retrieve(query: str, index, metadata: list[dict], top_k: int = TOP_K) -> list[dict]:
-    model = get_embedding_model()
-    query_embedding = model.encode([query], normalize_embeddings=True)
-    query_embedding = np.array(query_embedding, dtype="float32")
+    query_embedding = get_embeddings([query])
 
     scores, indices = index.search(query_embedding, top_k)
 
