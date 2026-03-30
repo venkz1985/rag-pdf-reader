@@ -18,7 +18,7 @@ HF_TOKEN = os.getenv("HF_TOKEN", "")
 HF_INFERENCE_URL = "https://router.huggingface.co/hf-inference/models/"
 
 LLM_MODEL = "anthropic/claude-haiku-4.5"
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 100
