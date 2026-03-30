@@ -4,18 +4,26 @@ from pathlib import Path
 import fitz  # PyMuPDF
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
 
 from config import CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, DATA_DIR, INDEX_DIR
+from config import OPENROUTER_API_KEY, OPENROUTER_BASE_URL
 
-_model = None
+_embedding_client = OpenAI(
+    base_url=OPENROUTER_BASE_URL,
+    api_key=OPENROUTER_API_KEY,
+)
 
 
-def get_embedding_model() -> SentenceTransformer:
-    global _model
-    if _model is None:
-        _model = SentenceTransformer(EMBEDDING_MODEL)
-    return _model
+def get_embeddings(texts: list[str]) -> np.ndarray:
+    response = _embedding_client.embeddings.create(
+        model=EMBEDDING_MODEL,
+        input=texts,
+    )
+    embeddings = np.array([item.embedding for item in response.data], dtype="float32")
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    norms[norms == 0] = 1
+    return embeddings / norms
 
 
 def extract_text(pdf_path: str | Path) -> str:
@@ -61,9 +69,8 @@ def build_index(pdf_paths: list[Path] | None = None) -> None:
     if not all_chunks:
         return
 
-    model = get_embedding_model()
     texts = [c["text"] for c in all_chunks]
-    embeddings = model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
+    embeddings = get_embeddings(texts)
     embeddings = np.array(embeddings, dtype="float32")
 
     dim = embeddings.shape[1]
