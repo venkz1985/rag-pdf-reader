@@ -14,8 +14,11 @@ INDEX_DIR.mkdir(exist_ok=True)
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
+HF_TOKEN = os.getenv("HF_TOKEN", "")
+HF_INFERENCE_URL = "https://api-inference.huggingface.co/v1/"
+
 LLM_MODEL = "anthropic/claude-haiku-4.5"
-EMBEDDING_MODEL = "openai/text-embedding-3-small"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 100
