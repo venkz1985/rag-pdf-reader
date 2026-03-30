@@ -3,24 +3,22 @@ from pathlib import Path
 
 import fitz  # PyMuPDF
 import faiss
+import httpx
 import numpy as np
-from openai import OpenAI
 
 from config import CHUNK_SIZE, CHUNK_OVERLAP, EMBEDDING_MODEL, DATA_DIR, INDEX_DIR
 from config import HF_TOKEN, HF_INFERENCE_URL
 
-_embedding_client = OpenAI(
-    base_url=HF_INFERENCE_URL,
-    api_key=HF_TOKEN,
-)
-
 
 def get_embeddings(texts: list[str]) -> np.ndarray:
-    response = _embedding_client.embeddings.create(
-        model=EMBEDDING_MODEL,
-        input=texts,
+    response = httpx.post(
+        f"{HF_INFERENCE_URL}{EMBEDDING_MODEL}",
+        headers={"Authorization": f"Bearer {HF_TOKEN}"},
+        json={"inputs": texts},
+        timeout=60.0,
     )
-    embeddings = np.array([item.embedding for item in response.data], dtype="float32")
+    response.raise_for_status()
+    embeddings = np.array(response.json(), dtype="float32")
     norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
     norms[norms == 0] = 1
     return embeddings / norms

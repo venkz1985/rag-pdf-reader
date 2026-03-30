@@ -15,7 +15,7 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 HF_TOKEN = os.getenv("HF_TOKEN", "")
-HF_INFERENCE_URL = "https://router.huggingface.co/hf-inference/v1/"
+HF_INFERENCE_URL = "https://router.huggingface.co/hf-inference/models/"
 
 LLM_MODEL = "anthropic/claude-haiku-4.5"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
