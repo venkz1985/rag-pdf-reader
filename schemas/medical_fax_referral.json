@@ -1,0 +1,33 @@
+{
+  "form_id": "medical_fax_referral",
+  "form_name": "Medical Fax Referral",
+  "description": "Standard physician-to-physician referral fax form. Common in outpatient and specialty referrals.",
+  "fields": [
+    { "id": "patient_name", "label": "Patient Name", "type": "string", "required": true },
+    { "id": "patient_dob", "label": "Date of Birth", "type": "date", "format": "MM/DD/YYYY", "required": true },
+    { "id": "patient_sex", "label": "Sex", "type": "enum", "options": ["M", "F", "Other"], "required": false },
+    { "id": "patient_phone", "label": "Patient Phone", "type": "phone", "required": false },
+    { "id": "patient_address", "label": "Patient Address", "type": "string", "required": false },
+    { "id": "patient_insurance", "label": "Insurance / Member ID", "type": "string", "required": false },
+
+    { "id": "referring_physician", "label": "Referring Physician", "type": "string", "required": true },
+    { "id": "referring_clinic", "label": "Referring Clinic", "type": "string", "required": false },
+    { "id": "referring_phone", "label": "Referring Phone", "type": "phone", "required": false },
+    { "id": "referring_fax", "label": "Referring Fax", "type": "phone", "required": false },
+    { "id": "referring_npi", "label": "Referring NPI", "type": "string", "required": false },
+
+    { "id": "receiving_physician", "label": "Receiving Physician / Specialty", "type": "string", "required": false },
+    { "id": "receiving_clinic", "label": "Receiving Clinic", "type": "string", "required": false },
+
+    { "id": "reason_for_referral", "label": "Reason for Referral", "type": "string", "required": true },
+    { "id": "diagnosis", "label": "Diagnosis (incl. ICD-10 if present)", "type": "string", "required": false },
+    { "id": "current_medications", "label": "Current Medications", "type": "string", "required": false },
+    { "id": "allergies", "label": "Allergies", "type": "string", "required": false },
+    { "id": "relevant_history", "label": "Relevant History / Notes", "type": "string", "required": false },
+
+    { "id": "urgency", "label": "Urgency", "type": "enum", "options": ["Routine", "Urgent", "STAT"], "required": false },
+    { "id": "date_of_referral", "label": "Date of Referral", "type": "date", "format": "MM/DD/YYYY", "required": false },
+    { "id": "physician_signature_present", "label": "Physician Signature Present", "type": "boolean", "required": false }
+  ],
+  "confidence_threshold": 0.85
+}

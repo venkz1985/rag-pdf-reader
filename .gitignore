@@ -1,6 +1,13 @@
 .env
+.env.local
 data/
 index/
+processed/
+lessons/
+samples/
 __pycache__/
 .venv/
 *.pyc
+.DS_Store
+.vscode/
+.idea/
