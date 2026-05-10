@@ -6,7 +6,7 @@
 
 Verified structured data from scanned, handwritten medical forms. Built for clinics — designed for the front-desk reviewer clearing 30 fax referrals before lunch.
 
-**Try it:** [run locally](#running-locally) (~3 min setup), or ping me for a live walkthrough on [rag-pdf-reader-1.onrender.com](https://rag-pdf-reader-1.onrender.com).
+**Try it:** [run locally](#running-locally) (~3 min setup), or ping me for a live walkthrough on [glyph-clinical-ai-1.onrender.com](https://glyph-clinical-ai-1.onrender.com).
 
 ---
 
