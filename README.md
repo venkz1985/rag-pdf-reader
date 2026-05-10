@@ -2,9 +2,11 @@
 
 ### *The model triages. Humans adjudicate.*
 
+> *A portfolio prototype I built to explore vision-LLM + verifier patterns for clinical document workflows. Not a product — see [Scope](#scope) for what's intentionally not built.*
+
 Verified structured data from scanned, handwritten medical forms. Built for clinics — designed for the front-desk reviewer clearing 30 fax referrals before lunch.
 
-**Live demo:** [rag-pdf-reader-1.onrender.com](https://rag-pdf-reader-1.onrender.com) — may be suspended between demos to control LLM costs. Ping for a live walkthrough, or run locally (see [Running locally](#running-locally)).
+**Try it:** [run locally](#running-locally) (~3 min setup), or ping me for a live walkthrough on [rag-pdf-reader-1.onrender.com](https://rag-pdf-reader-1.onrender.com).
 
 ---
 
