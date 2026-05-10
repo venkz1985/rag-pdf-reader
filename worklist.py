@@ -1,3 +1,9 @@
+"""Worklist persistence and reviewer assignment.
+
+Filesystem-backed JSON store for extracted records, round-robin reviewer
+routing, mock seeder for demos, and stats for the dashboard.
+"""
+
 from __future__ import annotations
 
 import base64

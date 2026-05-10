@@ -1,3 +1,9 @@
+"""Vision LLM extraction for medical forms.
+
+Loads a JSON schema, builds a vision prompt, calls Claude Haiku 4.5 via
+OpenRouter, and returns structured fields with per-field confidence.
+"""
+
 from __future__ import annotations
 
 import base64

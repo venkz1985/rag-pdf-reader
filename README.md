@@ -4,7 +4,7 @@
 
 Verified structured data from scanned, handwritten medical forms. Built for clinics — designed for the front-desk reviewer clearing 30 fax referrals before lunch.
 
----
+**Live demo:** [rag-pdf-reader-1.onrender.com](https://rag-pdf-reader-1.onrender.com) — may be suspended between demos to control LLM costs. Ping for a live walkthrough, or run locally (see [Running locally](#running-locally)).
 
 ---
 
@@ -156,7 +156,7 @@ The next extraction of the same form type prepends recent lessons to the prompt 
 | Vision LLM | Claude Haiku 4.5 via OpenRouter (multimodal vision + structured JSON output) |
 | External oracle | CMS NPPES NPI Registry public API (no auth, free) |
 | Image rendering | PyMuPDF (PDF → PNG, ~200 DPI) |
-| Frontend | Server-rendered Jinja2 + vanilla JS (no SPA, no build step) |
+| Frontend | Server-rendered Jinja2 + vanilla JS — intentionally minimal, no SPA build pipeline |
 | Vector store (RAG side) | FAISS — currently used by `ingest.py` for the legacy PDF chat (kept for future feedback-loop use) |
 | Embeddings | HuggingFace Inference API (BGE-small) |
 | Persistence | Filesystem JSON in `processed/` and `lessons/` |
@@ -246,4 +246,4 @@ See [`samples/README.md`](samples/README.md) for where to get test images. The f
 
 ## License
 
-Internal demo; not for production use.
+MIT — see [LICENSE](LICENSE). Demo only; do not upload real patient data (see [Scope](#scope) for PHI / HIPAA caveats).
