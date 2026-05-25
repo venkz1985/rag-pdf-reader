@@ -39,7 +39,6 @@ This project demonstrates that pattern end-to-end on **medical fax referrals**.
 - Real auth / RBAC — reviewers are a hardcoded mock list.
 - PHI compliance (HIPAA, BAA, encryption-at-rest) — demo only; do not upload real patient data.
 - Multiple form types — schema-as-config makes this trivial, but only one schema is shipped.
-- Ground-truth accuracy measurement — requires a labeled holdout set.
 - Fine-tuning / model training — feedback loop captures corrections in-prompt, no retraining.
 
 ---
@@ -150,6 +149,34 @@ The next extraction of the same form type prepends recent lessons to the prompt 
 
 ---
 
+### Evaluation
+
+The extraction pipeline is measured against a hand-labeled golden set — not the model's self-reported confidence.
+
+**Golden set.** 10 synthetic medical fax referral forms (`golden/forms/`), each with hand-written ground-truth labels (`golden/labels/`) covering all 21 fields. Deliberately varied: typed and handwritten, fully-completed and partially-blank, plus one degraded scan.
+
+**Scorer.** `golden/score.py` runs each form through the full Glyph pipeline and compares the extraction to its label, field by field. Each field gets one of five verdicts:
+
+| Verdict | Meaning | Counts as |
+|---|---|---|
+| `correct` | extracted value matches the label | TP |
+| `missed` | label has a value, model returned null | FN |
+| `hallucinated` | label is null, model invented a value | FP |
+| `wrong_value` | model returned a value, but the wrong one | FP **and** FN |
+| `correct_blank` | both are null | TN |
+
+`wrong_value` counts as both a false positive and a false negative — the model both asserted something false and failed to capture the true value. The scorer also records a `would_pass_normalized` diagnostic flag, separating genuine misreads from pure formatting differences.
+
+**Baseline.** ~0.99 precision and recall — on 10 clean, synthetic, single-template forms. A controlled baseline, not a real-world accuracy claim; messy, multi-template documents would score lower.
+
+**What it surfaced.** On its first run the harness caught a reproducible model failure: Glyph misreads "NKDA" as "NRDA" on this form font, consistently across multiple forms. Finding a specific, repeatable failure mode — rather than just a headline number — is the point of the eval.
+
+**Run it:** `.venv/bin/python golden/score.py`
+
+**Limitations.** Single form template, n=10, synthetic data, single-run (variance not yet measured). Roadmap: multi-run variance, a second template, an expanded set.
+
+---
+
 ## Stack
 
 | Layer | Technology |
@@ -230,13 +257,15 @@ See [`samples/README.md`](samples/README.md) for where to get test images. The f
 | Gap | Mitigation today | Production fix |
 |---|---|---|
 | Multi-page docs not supported | Renders first page only | Iterate over `doc[:n]`, dedupe extracted entities across pages |
+| ICD-10 validator is a no-op | `validate_icd10_format` currently always passes — listed but not enforcing | Implement real ICD-10 code validation, or remove the claim |
 | OCR co-presence uses same model | Catches blatant fabrication, weak on subtle errors | Swap to Tesseract (typed text) + Textract / Document AI (handwriting) |
 | Single LLM = single point of failure | OpenRouter falls back to other backends, but they share blind spots | Cross-model agreement (Haiku + GPT-4o-mini), shadow mode for new models |
 | Reviewer reason capture not yet in UI | Backend ready, dropdown is the next ship | Add reason picker on edit; lessons feed into prompt automatically |
 | No PHI controls | Demo-only — README warns not to upload real patient data | BAA with model provider, encryption-at-rest, access logs, audit trail |
 | Round-robin assignment is naive | Works for 3 reviewers + 18 docs | Specialization (cardiology → cardiologist), priority queue (STAT first), SLA timers |
 | Confidence threshold is fixed | Configured per schema | Per-customer / per-field thresholds, calibrated against historical reviewer outcomes |
-| No ground-truth metric | "Reviewer Approval Rate" measures behavior, not accuracy | Labeled holdout set + per-field precision/recall regressed on every model swap |
+| Eval is single-run on a small synthetic set | 10-form hand-labeled golden set + scorer (`golden/score.py`); ~0.99 precision/recall baseline | Expand set + second template; multi-run variance reporting; online eval instrumentation once there's real traffic |
+| Extraction and verification are fused | `extract_form` runs both in one call | Refactor into composable stages so callers can run partial pipelines and control external (NPPES) calls |
 
 ---
 
